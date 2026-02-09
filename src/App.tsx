@@ -7,6 +7,7 @@ import Showcase from './components/Showcase';
 import Contact from './components/Contact';
 import ProdexBell from './components/ProdexBell';
 import Footer from './components/Footer';
+import CustomCursor from './components/CustomCursor';
 import { useScrollDirection } from './hooks/useScrollDirection';
 
 // Persistent Navigation Sidebar (Vertical on desktop, Horizontal on mobile)
@@ -102,7 +103,8 @@ const App = () => {
 
     return (
         <BrowserRouter>
-            <div className="bg-black min-h-screen text-white flex flex-col">
+            <div className="bg-black min-h-screen text-white flex flex-col cursor-none">
+                <CustomCursor />
                 <div className="flex-grow">
                     <AnimatedRoutes />
                 </div>

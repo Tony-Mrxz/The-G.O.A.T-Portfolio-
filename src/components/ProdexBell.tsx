@@ -7,7 +7,7 @@ const ProdexBell = ({ scrollDir, isMobile }: { scrollDir: "up" | "down", isMobil
     const [isOpen, setIsOpen] = useState(false);
 
     return (
-        <div className="fixed top-6 right-6 md:top-8 md:right-8 z-[10000] flex flex-col items-end gap-4 origin-top-right">
+        <div className="fixed top-6 right-6 md:top-8 md:right-8 z-[10000] flex flex-col items-end gap-4 origin-top-right transform-gpu will-change-transform">
             {/* Bell Trigger */}
             <motion.button
                 onClick={() => setIsOpen(!isOpen)}
