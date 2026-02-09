@@ -1,18 +1,24 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Bell, X, ExternalLink } from 'lucide-react';
+import { useScrollDirection } from '../hooks/useScrollDirection';
 
-const ProdexBell = () => {
+const ProdexBell = ({ scrollDir, isMobile }: { scrollDir: "up" | "down", isMobile: boolean }) => {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
-        <div className="fixed top-8 right-8 z-[10000] flex flex-col items-end gap-4">
+        <div className="fixed top-6 right-6 md:top-8 md:right-8 z-[10000] flex flex-col items-end gap-4 origin-top-right">
             {/* Bell Trigger */}
             <motion.button
                 onClick={() => setIsOpen(!isOpen)}
-                className="relative w-12 h-12 rounded-full bg-white/[0.03] backdrop-blur-2xl border border-white/10 flex items-center justify-center text-white/60 hover:text-white hover:bg-white/10 transition-all duration-300 shadow-[0_0_20px_rgba(0,0,0,0.3)]"
+                className="relative w-[52px] h-[52px] md:w-12 md:h-12 rounded-full bg-white/[0.03] backdrop-blur-2xl border border-white/10 flex items-center justify-center text-white/60 hover:text-white hover:bg-white/10 transition-all duration-300 shadow-[0_0_20px_rgba(0,0,0,0.3)]"
                 initial={false}
-                animate={isOpen ? { scale: 0.9, rotate: 0 } : {}}
+                animate={{
+                    scale: isOpen ? 0.9 : 1,
+                    rotate: 0,
+                    y: (isMobile && scrollDir === "down" && !isOpen) ? -100 : 0
+                }}
+                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
             >
                 <motion.div
                     animate={!isOpen ? {
@@ -50,7 +56,7 @@ const ProdexBell = () => {
                         />
 
                         <motion.div
-                            className="w-80 p-6 bg-white/[0.03] backdrop-blur-3xl border border-white/10 rounded-2xl shadow-[0_0_50px_rgba(0,0,0,0.5)] overflow-hidden"
+                            className="w-80 max-w-[90vw] p-6 bg-white/[0.03] backdrop-blur-3xl border border-white/10 rounded-2xl shadow-[0_0_50px_rgba(0,0,0,0.5)] overflow-hidden"
                             initial={{ opacity: 0, y: -20, scale: 0.95, filter: 'blur(10px)' }}
                             animate={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
                             exit={{ opacity: 0, y: -20, scale: 0.95, filter: 'blur(10px)' }}

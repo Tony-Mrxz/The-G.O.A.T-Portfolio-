@@ -38,13 +38,14 @@ const MorphingText = ({ initialText, targetText, isHovered }: { initialText: str
     return <span>{displayText}</span>;
 }
 
-const Typewriter = ({ text, delay = 0, speed = 15, startTrigger = true, onComplete, skip = false }: {
+const Typewriter = ({ text, delay = 0, speed = 15, startTrigger = true, onComplete, skip = false, className = "" }: {
     text: string,
     delay?: number,
     speed?: number,
     startTrigger?: boolean,
     onComplete?: () => void,
-    skip?: boolean
+    skip?: boolean,
+    className?: string
 }) => {
     const [displayedText, setDisplayedText] = useState(skip ? text : "");
     const [isStarted, setIsStarted] = useState(false);
@@ -76,7 +77,7 @@ const Typewriter = ({ text, delay = 0, speed = 15, startTrigger = true, onComple
     }, [displayedText, isStarted, text, speed, skip, onComplete]);
 
     return (
-        <span className="inline-block relative">
+        <span className={`inline-block relative break-words whitespace-pre-wrap ${className}`}>
             {displayedText}
             <motion.span
                 animate={{ opacity: [1, 0, 1] }}
@@ -154,7 +155,7 @@ const CountingStat = ({ target, label, suffix = "+", startDelay = 0 }: { target:
 
     return (
         <motion.div
-            className="flex flex-col items-center gap-1 px-8 py-4 cursor-default group"
+            className="flex flex-col items-center gap-1 px-4 md:px-8 py-2 md:py-4 cursor-default group"
             onMouseEnter={handleHover}
             whileHover={{ scale: 1.05 }}
             transition={{ duration: 0.3 }}
@@ -169,7 +170,7 @@ const CountingStat = ({ target, label, suffix = "+", startDelay = 0 }: { target:
                 <span className="text-2xl text-white/60 font-light">{suffix}</span>
             </div>
             <span
-                className="text-white/40 text-xs uppercase tracking-[0.2em] font-medium"
+                className="text-white/40 text-[10px] md:text-xs uppercase tracking-[0.2em] font-medium whitespace-nowrap"
                 style={{ fontFamily: "'Kanit', sans-serif" }}
             >
                 {label}
@@ -185,6 +186,15 @@ const Intro = () => {
     const [activeTab, setActiveTab] = useState<'intro' | 'building'>('intro');
     const [hasFinishedTyping, setHasFinishedTyping] = useState(false);
     const [isInitialReveal, setIsInitialReveal] = useState(true);
+
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth < 768);
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
 
     useEffect(() => {
         const timers = [
@@ -207,21 +217,23 @@ const Intro = () => {
         <AnimatePresence>
             {show && (
                 <motion.div
-                    className="relative min-h-screen bg-black flex flex-col items-center z-[10]"
+                    className="relative min-h-screen bg-black flex flex-col items-center z-[10] overflow-x-hidden"
                     initial={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
                 >
-                    <div className="relative flex items-center justify-center w-full min-h-screen -mt-10 py-24">
+                    <div className="relative flex flex-col md:flex-row items-center justify-center w-full min-h-screen mt-0 md:-mt-10 py-24 md:py-0">
 
                         {/* "Introducing.." Text */}
                         <motion.h1
-                            className="text-white text-2xl md:text-3xl font-light tracking-[0.4em] select-none absolute z-20"
+                            className="text-white text-2xl md:text-3xl font-light tracking-[0.4em] select-none absolute z-20 
+                                       top-[35%] -translate-y-1/2 md:translate-y-0 md:top-auto 
+                                       w-full text-center md:text-left md:w-auto"
                             style={{ fontFamily: "'Kanit', sans-serif", fontWeight: 300 }}
                             initial={{ opacity: 0, filter: "blur(20px)", y: 20 }}
                             animate={
                                 animationPhase === 'text-in'
-                                    ? { opacity: 1, filter: "blur(0px)", y: 0 }
+                                    ? { opacity: 1, filter: "blur(0px)", y: isMobile ? -50 : 0 } // Extra offset for vertical center feel on mobile
                                     : { opacity: 0, y: -40, filter: "blur(10px)", transition: { duration: 0.6, ease: "easeInOut" } }
                             }
                             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
@@ -231,23 +243,23 @@ const Intro = () => {
 
                         {/* Synchronized Identity Reveal */}
                         <motion.div
-                            className="relative flex items-center justify-center"
+                            className="relative flex flex-col md:flex-row items-center justify-center w-full max-w-7xl px-4"
                             initial={{ opacity: 0 }}
                             animate={(animationPhase !== 'text-in') ? { opacity: 1 } : { opacity: 0 }}
                             transition={{ duration: 0.6 }}
                         >
                             <motion.div
-                                className="relative flex flex-col items-center justify-start w-[400px]"
+                                className="relative flex flex-col items-center justify-start w-full md:w-[400px] z-10 md:pt-12"
                                 animate={
                                     animationPhase === 'card-reveal'
-                                        ? { x: '-25vw' } // Smooth movement to left
+                                        ? { x: isMobile ? 0 : '-26vw' } // Smooth movement to left on desktop only
                                         : { x: 0 }
                                 }
                                 transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }} // Faster movement
                             >
                                 {/* Static Atmospheric Glow: Appears when stable */}
                                 <motion.div
-                                    className="absolute inset-0 bg-white/5 blur-[120px] rounded-full -z-20"
+                                    className="absolute inset-0 bg-white/5 blur-[80px] md:blur-[120px] rounded-full -z-20"
                                     initial={{ opacity: 0, scale: 0.8 }}
                                     animate={animationPhase === 'card-reveal' ? { opacity: 1, scale: 1.2 } : { opacity: 0, scale: 0.8 }}
                                     transition={{ duration: 1, delay: 1.5, ease: "easeOut" }}
@@ -259,7 +271,7 @@ const Intro = () => {
                                     initial={{ width: 0, height: 0, opacity: 0 }}
                                     animate={
                                         animationPhase === 'card-reveal'
-                                            ? { width: '400px', height: '560px', opacity: 1 }
+                                            ? { width: isMobile ? '90vw' : '400px', height: isMobile ? '520px' : '560px', opacity: 1 }
                                             : { width: 0, height: 0, opacity: 0 }
                                     }
                                     transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
@@ -268,19 +280,19 @@ const Intro = () => {
                                 {/* Content Container - Tighter Top Spacing */}
                                 <div className="relative flex flex-col items-center justify-start pointer-events-auto w-full pt-[20px]">
                                     {/* Sub-container to maintain equal spacing even when image is circular */}
-                                    <div className="relative w-full h-[360px] flex items-center justify-center">
+                                    <div className="relative w-full h-[300px] md:h-[360px] flex items-center justify-center">
                                         <motion.div
                                             className="overflow-hidden border border-white/10 p-2 glass relative z-10 cursor-pointer"
-                                            initial={{ scale: 0, filter: "blur(30px)", borderRadius: "100%", width: "270px", height: "270px" }}
+                                            initial={{ scale: 0, filter: "blur(30px)", borderRadius: "100%", width: "200px", height: "200px" }}
                                             animate={
                                                 animationPhase !== 'text-in'
-                                                    ? { scale: 1, filter: "blur(0px)", borderRadius: "100%", width: "270px", height: "270px" }
-                                                    : { scale: 0, filter: "blur(30px)", borderRadius: "100%", width: "270px", height: "270px" }
+                                                    ? { scale: 1, filter: "blur(0px)", borderRadius: "100%", width: isMobile ? "220px" : "270px", height: isMobile ? "220px" : "270px" }
+                                                    : { scale: 0, filter: "blur(30px)", borderRadius: "100%", width: isMobile ? "200px" : "270px", height: isMobile ? "200px" : "270px" }
                                             }
                                             whileHover={{
                                                 borderRadius: "2rem",
-                                                width: "360px",
-                                                height: "360px",
+                                                width: isMobile ? "260px" : "360px",
+                                                height: isMobile ? "260px" : "360px",
                                                 transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] }
                                             }}
                                             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
@@ -301,7 +313,7 @@ const Intro = () => {
                                     </div>
 
                                     {/* Identity Section: Divider, Animated Title & Subtitle */}
-                                    <div className="flex flex-col items-center w-full px-12 mt-8 select-none">
+                                    <div className="flex flex-col items-center w-full px-8 md:px-12 mt-4 md:mt-8 select-none">
                                         {/* Divider Line */}
                                         <motion.div
                                             className="w-full h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"
@@ -320,7 +332,7 @@ const Intro = () => {
                                             onMouseLeave={() => setIsTitleHovered(false)}
                                         >
                                             <h2
-                                                className="text-white text-4xl font-light tracking-wider cursor-default"
+                                                className="text-white text-3xl md:text-4xl font-light tracking-wider cursor-default"
                                                 style={{ fontFamily: "'Kanit', sans-serif", fontWeight: 300 }}
                                             >
                                                 <MorphingText
@@ -333,7 +345,7 @@ const Intro = () => {
 
                                         {/* Subtitle */}
                                         <motion.p
-                                            className="text-white/40 text-sm font-medium tracking-[0.3em] uppercase"
+                                            className="text-white/40 text-xs md:text-sm font-medium tracking-[0.3em] uppercase text-center"
                                             style={{ fontFamily: "'Kanit', sans-serif" }}
                                             initial={{ opacity: 0, y: 15 }}
                                             animate={animationPhase === 'card-reveal' ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }}
@@ -347,24 +359,48 @@ const Intro = () => {
                                             animate={animationPhase === 'card-reveal' ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }}
                                             transition={{ duration: 0.5, delay: 1.1, ease: "easeOut" }}
                                         >
-                                            <div className="px-4 py-2 rounded-xl bg-white/[0.03] backdrop-blur-xl border border-white/10 flex items-center gap-3 shadow-[0_0_20px_rgba(0,0,0,0.3)]">
-                                                <div className="w-6 h-6 rounded-full overflow-hidden border border-white/10 bg-black shrink-0">
+                                            <div className="px-3 py-1.5 md:px-4 md:py-2 rounded-xl bg-white/[0.03] backdrop-blur-xl border border-white/10 flex items-center gap-3 shadow-[0_0_20px_rgba(0,0,0,0.3)]">
+                                                <div className="w-5 h-5 md:w-6 md:h-6 rounded-full overflow-hidden border border-white/10 bg-black shrink-0">
                                                     <img src="/mrxz.png" alt="Mrxz Logo" className="w-full h-full object-cover" />
                                                 </div>
                                                 <span
-                                                    className="text-white/40 text-[9px] uppercase tracking-[0.2em] font-medium whitespace-nowrap"
+                                                    className="text-white/40 text-[8px] md:text-[9px] uppercase tracking-[0.2em] font-medium whitespace-nowrap"
                                                     style={{ fontFamily: "'Kanit', sans-serif" }}
                                                 >
                                                     Mrxz IOT Development Founder & CEO
                                                 </span>
                                             </div>
                                         </motion.div>
+
+                                        {/* Mobile Social Links: Inline below founder container */}
+                                        {isMobile && (
+                                            <motion.div
+                                                className="flex flex-row gap-6 mt-6 items-center"
+                                                initial={{ opacity: 0, y: 10 }}
+                                                animate={animationPhase === 'card-reveal' ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+                                                transition={{ duration: 0.5, delay: 1.3 }}
+                                            >
+                                                {socialLinks.map((social, i) => (
+                                                    <motion.a
+                                                        key={i}
+                                                        href={social.href}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className={`text-white/40 transition-all duration-300 hover:scale-110 ${social.color}`}
+                                                    >
+                                                        <social.icon size={20} />
+                                                    </motion.a>
+                                                ))}
+                                            </motion.div>
+                                        )}
                                     </div>
                                 </div>
 
-                                {/* Elite Social Toolbar: Relocated to the LEFT side */}
+                                {/* Elite Social Toolbar: Desktop only, hidden on mobile */}
                                 <motion.div
-                                    className="absolute right-full top-[100px] -mr-4 flex flex-col gap-9 items-center p-5 bg-white/[0.05] backdrop-blur-3xl border border-white/10 rounded-2xl shadow-[0_0_60px_rgba(0,0,0,0.4)] -z-20"
+                                    className="absolute md:right-full md:top-[100px] md:-mr-4 
+                                               hidden md:flex flex-col gap-9 items-center p-5 
+                                               bg-white/[0.05] backdrop-blur-3xl border border-white/10 rounded-2xl shadow-[0_0_60px_rgba(0,0,0,0.4)] -z-20"
                                     initial={{ opacity: 0, x: 60 }}
                                     animate={animationPhase === 'card-reveal' ? { opacity: 1, x: 0 } : { opacity: 0, x: 60 }}
                                     transition={{
@@ -386,25 +422,31 @@ const Intro = () => {
                                         >
                                             <div className={`absolute inset-0 blur-xl opacity-0 group-hover:opacity-40 transition-opacity duration-500 rounded-full ${social.glow}`} />
                                             <div className={`relative z-10 ${social.color} transition-colors duration-500`}>
-                                                <social.icon size={22} />
+                                                <social.icon size={20} className="md:w-[22px] md:h-[22px]" />
                                             </div>
                                         </motion.a>
                                     ))}
                                 </motion.div>
-
                             </motion.div>
+
                         </motion.div>
 
 
 
-                        {/* Biography / Roles Section: Appears to the right of the card */}
+                        {/* Biography / Roles Section: Appears to the right of the card on Desktop, Below on Mobile */}
                         <motion.div
-                            className="absolute left-[45%] top-[120px] w-[550px] pointer-events-none select-none px-8 flex flex-col"
+                            className="relative md:absolute md:left-[50%] md:top-[100px] 
+                                       w-[85%] md:w-[500px] mx-auto md:mx-0 md:-ml-8 mt-24 md:mt-0
+                                       pointer-events-none select-none flex flex-col items-center md:items-start text-center md:text-left"
                             initial={{ opacity: 0, x: 50 }}
-                            animate={animationPhase === 'card-reveal' ? { opacity: 1, x: 0 } : { opacity: 0, x: 50 }}
+                            animate={
+                                animationPhase === 'card-reveal'
+                                    ? { opacity: 1, x: 0 }
+                                    : { opacity: 0, x: 50 }
+                            }
                             transition={{ duration: 0.8, delay: 1.6, ease: "easeOut" }}
                         >
-                            <div className="h-[320px] relative pointer-events-auto flex flex-col">
+                            <div className={`relative pointer-events-auto flex flex-col ${isMobile ? 'h-auto' : 'h-[320px]'} order-last md:order-first w-full`}>
                                 <AnimatePresence mode="wait">
                                     {activeTab === 'intro' ? (
                                         <motion.div
@@ -413,7 +455,7 @@ const Intro = () => {
                                             animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
                                             exit={{ opacity: 0, scale: 0.98, filter: "blur(10px)" }}
                                             transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-                                            className="text-white/80 text-xl leading-relaxed font-light tracking-wide space-y-6 pt-2"
+                                            className="text-white/80 text-base md:text-xl leading-relaxed font-light tracking-wide space-y-6 pt-2 break-words w-full"
                                             style={{ fontFamily: "'Kanit', sans-serif", fontWeight: 300, textShadow: '0 0 40px rgba(255,255,255,0.05)' }}
                                         >
                                             <Typewriter
@@ -458,10 +500,10 @@ const Intro = () => {
                                     )}
                                 </AnimatePresence>
 
-                                {/* Stats Bar - Fixed Position Below Paragraph */}
+                                {/* Stats Bar - Relative on Mobile, Absolute on Desktop */}
                                 {activeTab === 'intro' && (
                                     <motion.div
-                                        className="absolute bottom-[-80px] left-0 right-0 flex items-center justify-center gap-2 p-2 rounded-2xl bg-white/[0.02] backdrop-blur-xl border border-white/5"
+                                        className={`${isMobile ? 'relative mt-8 mb-4 scale-90 origin-top w-full' : 'absolute bottom-[-80px] w-auto'} left-0 right-0 flex items-center justify-center gap-2 p-2 rounded-2xl bg-white/[0.02] backdrop-blur-xl border border-white/5`}
                                         initial={isInitialReveal ? { opacity: 0, y: 20 } : { opacity: 1, y: 0 }}
                                         animate={{ opacity: 1, y: 0 }}
                                         transition={{ duration: 0.6, delay: isInitialReveal ? 3.0 : 0 }}
@@ -480,7 +522,7 @@ const Intro = () => {
 
                             {/* Premium Tab Toggle Bar: Locked at mt-52 position */}
                             <motion.div
-                                className="mt-52 flex flex-col items-center gap-4 w-full pointer-events-auto"
+                                className="md:mt-52 mt-6 mb-8 md:mb-0 flex flex-col items-center gap-4 w-full pointer-events-auto order-first md:order-last"
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={animationPhase === 'card-reveal' ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                                 transition={{ duration: 0.8, delay: 2.0, ease: "easeOut" }}

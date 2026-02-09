@@ -12,7 +12,7 @@ const SectionHeader = ({ activeTab, onTabChange }: { activeTab: string, onTabCha
 
     return (
         <div className="flex flex-col md:flex-row items-center justify-between gap-8 mb-12">
-            <div className="flex items-center gap-6">
+            <div className="flex flex-wrap justify-center items-center gap-3 md:gap-6">
                 {categories.map((cat) => {
                     const isActive = activeTab === cat.id;
                     const Icon = cat.icon;
@@ -20,18 +20,18 @@ const SectionHeader = ({ activeTab, onTabChange }: { activeTab: string, onTabCha
                         <button
                             key={cat.id}
                             onClick={() => onTabChange(cat.id as any)}
-                            className={`group relative flex items-center gap-3 px-6 py-3 rounded-2xl transition-all duration-500 ${isActive
+                            className={`group relative flex items-center gap-2 md:gap-3 px-4 py-2 md:px-6 md:py-3 rounded-2xl transition-all duration-500 ${isActive
                                 ? 'bg-white/[0.08] border-white/20 shadow-[0_0_40px_rgba(255,255,255,0.05)]'
                                 : 'bg-transparent border-transparent hover:bg-white/[0.03]'
                                 } border`}
                         >
                             <Icon
-                                size={20}
-                                className={`transition-colors duration-500 ${isActive ? 'text-white' : 'text-white/30 group-hover:text-white/60'}`}
+                                size={18}
+                                className={`md:w-5 md:h-5 transition-colors duration-500 ${isActive ? 'text-white' : 'text-white/30 group-hover:text-white/60'}`}
                                 strokeWidth={1.5}
                             />
                             <span
-                                className={`text-sm uppercase tracking-[0.2em] font-medium transition-colors duration-500 ${isActive ? 'text-white' : 'text-white/30 group-hover:text-white/60'
+                                className={`text-xs md:text-sm uppercase tracking-[0.2em] font-medium transition-colors duration-500 ${isActive ? 'text-white' : 'text-white/30 group-hover:text-white/60'
                                     }`}
                                 style={{ fontFamily: "'Kanit', sans-serif" }}
                             >
@@ -159,7 +159,7 @@ const Showcase = () => {
 
     return (
         <motion.div
-            className="min-h-screen bg-black text-white pt-16 pb-24 px-8 md:px-16 lg:px-32"
+            className="min-h-screen bg-black text-white pt-28 md:pt-16 pb-24 px-8 md:px-16 lg:px-32"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}

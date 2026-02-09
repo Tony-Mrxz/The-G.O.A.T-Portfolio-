@@ -118,7 +118,7 @@ const Contact = () => {
 
     return (
         <motion.div
-            className="min-h-screen bg-black text-white pt-16 pb-24 px-8 md:px-16 lg:px-32"
+            className="min-h-screen bg-black text-white pt-28 md:pt-16 pb-24 px-8 md:px-16 lg:px-32"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
