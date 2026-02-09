@@ -459,7 +459,7 @@ const Intro = () => {
                                             style={{ fontFamily: "'Kanit', sans-serif", fontWeight: 300, textShadow: '0 0 40px rgba(255,255,255,0.05)' }}
                                         >
                                             <Typewriter
-                                                text="I'm Lalith. I specialize in building 'Life OS' ecosystems—tools designed to remove chaos and restore order to the human experience. From scaling high-performance web architecture to training niche AI models, I architect solutions that empower founders to reclaim their time and focus."
+                                                text="Hey! I'm Lalith. A multi-skilled human, basically a one-man army. I design professional graphics, build scalable websites, and train/deploy full-stack AI solutions. I'm also proficient in entry-level ethical hacking and system defense—ready for any technical challenge."
                                                 delay={400}
                                                 startTrigger={animationPhase === 'card-reveal'}
                                                 skip={hasFinishedTyping}
