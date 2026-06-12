@@ -143,9 +143,10 @@ const Showcase = () => {
         ],
         websites: [
             { title: "Prodex Studio", desc: "Productivity Hub and a Life OS for creators.", link: "https://prodexstudio.in", img: "/prodex-studio.png" },
+            { title: "Mrxz Labs", desc: "Creative engineering studio building high-performance websites and automations.", link: "https://mrxz-labs.vercel.app", img: "/mrxz.png" },
+            { title: "Swaraavali AI", desc: "World's first AI to generate Carnatic Sargam, Western & Staff notation from any song.", link: "https://swaraavali-ai.vercel.app", img: "/swaraavali.png" },
             { title: "Mrxz", desc: "Digital portfolio and creative hub.", link: "https://cybmrxz.netlify.app", img: "/mrxz.png" },
             { title: "Hyperverse", desc: "Creative studio and production house.", link: "https://www.hyperversestudios.in", img: "/Designs/hypervrs.png" },
-            { title: "NextraForge", desc: "IoT Development Team. Web, Automations, AI.", link: "https://nextraforge.xyz", img: "/nextra.webp" },
         ],
         software: [
             { title: "Prodex Studio", desc: "Productivity Hub and a Life OS for creators.", link: "https://prodexstudio.in", img: "/prodex-studio.png" },

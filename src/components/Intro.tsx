@@ -179,6 +179,44 @@ const CountingStat = ({ target, label, suffix = "+", startDelay = 0 }: { target:
     );
 };
 
+const ScrollingLyrics = () => {
+    const words = ["Graphic Design", "FullStack Development", "AI Automations"];
+    const [index, setIndex] = useState(0);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setIndex((prev) => (prev + 1) % words.length);
+        }, 3000);
+        return () => clearInterval(interval);
+    }, []);
+
+    return (
+        <div className="flex flex-col items-center justify-center px-2 py-1 min-w-[120px] md:min-w-[150px] h-12 overflow-hidden select-none">
+            <div className="relative h-6 w-full flex items-center justify-center">
+                <motion.div
+                    animate={{ y: -index * 24 }}
+                    transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                    className="absolute flex flex-col items-center justify-start"
+                >
+                    {words.map((word, i) => (
+                        <span
+                            key={i}
+                            className={`h-6 flex items-center justify-center text-[10px] md:text-xs uppercase tracking-[0.2em] font-medium transition-all duration-500 whitespace-nowrap ${
+                                i === index
+                                    ? 'text-white font-semibold drop-shadow-[0_0_12px_rgba(255,255,255,0.4)] scale-100 opacity-100'
+                                    : 'text-white/20 scale-95 opacity-20'
+                            }`}
+                            style={{ fontFamily: "'Kanit', sans-serif" }}
+                        >
+                            {word}
+                        </span>
+                    ))}
+                </motion.div>
+            </div>
+        </div>
+    );
+};
+
 const Intro = () => {
     const [show, setShow] = useState(true);
     const [animationPhase, setAnimationPhase] = useState('text-in');
@@ -446,7 +484,7 @@ const Intro = () => {
                             }
                             transition={{ duration: 0.8, delay: 1.6, ease: "easeOut" }}
                         >
-                            <div className={`relative pointer-events-auto flex flex-col ${isMobile ? 'h-auto' : 'h-[320px]'} order-last md:order-first w-full`}>
+                            <div className={`relative pointer-events-auto flex flex-col ${isMobile ? 'h-auto' : (activeTab === 'intro' ? 'h-[320px]' : 'h-[490px]')} order-last md:order-first w-full`}>
                                 <AnimatePresence mode="wait">
                                     {activeTab === 'intro' ? (
                                         <motion.div
@@ -459,7 +497,7 @@ const Intro = () => {
                                             style={{ fontFamily: "'Kanit', sans-serif", fontWeight: 300, textShadow: '0 0 40px rgba(255,255,255,0.05)' }}
                                         >
                                             <Typewriter
-                                                text="Hey! I'm Lalith. A multi-skilled human, basically a one-man army. I design professional graphics, build scalable websites, and train/deploy full-stack AI solutions. I'm also proficient in entry-level ethical hacking and system defense—ready for any technical challenge."
+                                                text="I design, develop, and deploy modern digital solutions—from websites and AI applications to automation systems and creative brand experiences. My goal is simple: transform ideas into products people love to use."
                                                 delay={400}
                                                 startTrigger={animationPhase === 'card-reveal'}
                                                 skip={hasFinishedTyping}
@@ -483,11 +521,18 @@ const Intro = () => {
                                                 img="prodex-studio.png"
                                             />
                                             <RoleCard
-                                                title="NextraForge"
-                                                role="Co-founder"
-                                                desc="IoT Development Team. Web development, Automations, AI bots."
-                                                link="https://nextraforge.xyz"
-                                                img="nextra.webp"
+                                                title="Mrxz Labs"
+                                                role="Founder"
+                                                desc="Creative engineering studio. Next-gen digital startup building high-performance webs, kinetic graphics, and smart automations."
+                                                link="https://mrxz-labs.vercel.app"
+                                                img="mrxz.png"
+                                            />
+                                            <RoleCard
+                                                title="Swaraavali AI"
+                                                role="Lead Developer"
+                                                desc="World's first AI platform generating Sargam, Western, and Staff notation from any song instantly."
+                                                link="https://swaraavali-ai.vercel.app"
+                                                img="swaraavali.png"
                                             />
                                             <RoleCard
                                                 title="InnerHue.org"
@@ -513,16 +558,16 @@ const Intro = () => {
                                     >
                                         <CountingStat target={6} label="Years Exp" startDelay={isInitialReveal ? 3200 : 0} />
                                         <div className="w-px h-12 bg-white/10" />
-                                        <CountingStat target={50} label="Clients" startDelay={isInitialReveal ? 3400 : 0} />
+                                        <ScrollingLyrics />
                                         <div className="w-px h-12 bg-white/10" />
-                                        <CountingStat target={70} label="Projects" startDelay={isInitialReveal ? 3600 : 0} />
+                                        <CountingStat target={25} label="Projects" startDelay={isInitialReveal ? 3400 : 0} />
                                     </motion.div>
                                 )}
                             </div>
 
                             {/* Premium Tab Toggle Bar: Locked at mt-52 position */}
                             <motion.div
-                                className="md:mt-52 mt-6 mb-8 md:mb-0 flex flex-col items-center gap-4 w-full pointer-events-auto order-first md:order-last"
+                                className={`mt-6 mb-8 md:mb-0 flex flex-col items-center gap-4 w-full pointer-events-auto order-first md:order-last ${activeTab === 'building' ? 'md:mt-16' : 'md:mt-52'}`}
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={animationPhase === 'card-reveal' ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                                 transition={{ duration: 0.8, delay: 2.0, ease: "easeOut" }}
