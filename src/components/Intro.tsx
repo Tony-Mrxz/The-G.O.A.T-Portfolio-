@@ -90,27 +90,27 @@ const Typewriter = ({ text, delay = 0, speed = 15, startTrigger = true, onComple
 
 const RoleCard = ({ title, role, desc, link, img }: { title: string, role: string, desc: string, link: string, img: string }) => (
     <div
-        className="w-full p-6 rounded-2xl bg-white/[0.04] backdrop-blur-xl border border-white/10 flex items-center gap-8 group transition-all duration-300 pointer-events-auto hover:bg-white/[0.07] hover:border-white/20"
+        className="w-full p-3 md:p-3.5 rounded-xl bg-white/[0.04] backdrop-blur-xl border border-white/10 flex items-center gap-4 group transition-all duration-300 pointer-events-auto hover:bg-white/[0.07] hover:border-white/20"
     >
-        <div className="w-24 h-24 rounded-2xl overflow-hidden bg-white/5 border border-white/10 shrink-0">
+        <div className="w-14 h-14 rounded-lg overflow-hidden bg-white/5 border border-white/10 shrink-0">
             <img src={img} alt={title} className="w-full h-full object-cover opacity-100 transition-opacity duration-500" />
         </div>
         <div className="flex flex-col flex-1 min-w-0">
-            <div className="flex items-center justify-between gap-6">
+            <div className="flex items-center justify-between gap-4">
                 <div className="flex flex-col truncate">
-                    <h3 className="text-white font-semibold text-lg tracking-wide truncate" style={{ fontFamily: "'Kanit', sans-serif" }}>{title}</h3>
-                    <p className="text-white/30 text-xs uppercase tracking-[0.15em] font-medium" style={{ fontFamily: "'Kanit', sans-serif" }}>{role}</p>
+                    <h3 className="text-white font-medium text-sm md:text-base tracking-wide truncate" style={{ fontFamily: "'Kanit', sans-serif" }}>{title}</h3>
+                    <p className="text-white/30 text-[9px] md:text-[10px] uppercase tracking-[0.15em] font-medium" style={{ fontFamily: "'Kanit', sans-serif" }}>{role}</p>
                 </div>
                 <a
                     href={link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-3 rounded-xl bg-white/5 border border-white/5 text-white/40 hover:bg-white hover:text-black hover:border-white transition-all duration-300 active:scale-95 flex-shrink-0"
+                    className="p-2 rounded-lg bg-white/5 border border-white/5 text-white/40 hover:bg-white hover:text-black hover:border-white transition-all duration-300 active:scale-95 flex-shrink-0"
                 >
-                    <ExternalLink size={16} />
+                    <ExternalLink size={14} />
                 </a>
             </div>
-            <p className="mt-2 text-white/50 text-[13px] leading-relaxed line-clamp-2" style={{ fontFamily: "'Kanit', sans-serif" }}>
+            <p className="mt-1.5 text-white/50 text-[11px] md:text-xs leading-snug line-clamp-2" style={{ fontFamily: "'Kanit', sans-serif" }}>
                 {desc}
             </p>
         </div>
@@ -191,27 +191,21 @@ const ScrollingLyrics = () => {
     }, []);
 
     return (
-        <div className="flex flex-col items-center justify-center px-2 py-1 min-w-[120px] md:min-w-[150px] h-12 overflow-hidden select-none">
-            <div className="relative h-6 w-full flex items-center justify-center">
-                <motion.div
-                    animate={{ y: -index * 24 }}
-                    transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                    className="absolute flex flex-col items-center justify-start"
-                >
-                    {words.map((word, i) => (
-                        <span
-                            key={i}
-                            className={`h-6 flex items-center justify-center text-[10px] md:text-xs uppercase tracking-[0.2em] font-medium transition-all duration-500 whitespace-nowrap ${
-                                i === index
-                                    ? 'text-white font-semibold drop-shadow-[0_0_12px_rgba(255,255,255,0.4)] scale-100 opacity-100'
-                                    : 'text-white/20 scale-95 opacity-20'
-                            }`}
-                            style={{ fontFamily: "'Kanit', sans-serif" }}
-                        >
-                            {word}
-                        </span>
-                    ))}
-                </motion.div>
+        <div className="flex flex-col items-center justify-center px-4 py-2 min-w-[140px] md:min-w-[180px] h-12 select-none">
+            <div className="h-6 w-full overflow-hidden relative flex items-center justify-center">
+                <AnimatePresence>
+                    <motion.span
+                        key={index}
+                        initial={{ y: 24, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        exit={{ y: -24, opacity: 0 }}
+                        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                        className="text-white font-semibold text-[10px] md:text-xs uppercase tracking-[0.2em] text-center whitespace-nowrap absolute drop-shadow-[0_0_12px_rgba(255,255,255,0.4)]"
+                        style={{ fontFamily: "'Kanit', sans-serif" }}
+                    >
+                        {words[index]}
+                    </motion.span>
+                </AnimatePresence>
             </div>
         </div>
     );
@@ -484,7 +478,7 @@ const Intro = () => {
                             }
                             transition={{ duration: 0.8, delay: 1.6, ease: "easeOut" }}
                         >
-                            <div className={`relative pointer-events-auto flex flex-col ${isMobile ? 'h-auto' : (activeTab === 'intro' ? 'h-[320px]' : 'h-[490px]')} order-last md:order-first w-full`}>
+                            <div className={`relative pointer-events-auto flex flex-col ${isMobile ? 'h-auto' : (activeTab === 'intro' ? 'h-[320px]' : 'h-[420px]')} order-last md:order-first w-full`}>
                                 <AnimatePresence mode="wait">
                                     {activeTab === 'intro' ? (
                                         <motion.div
@@ -511,7 +505,7 @@ const Intro = () => {
                                             animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                                             exit={{ opacity: 0, y: 20, filter: "blur(10px)" }}
                                             transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-                                            className="flex flex-col gap-4 w-full pt-4"
+                                            className="flex flex-col gap-3 w-full pt-4"
                                         >
                                             <RoleCard
                                                 title="Prodex Studio"
@@ -558,16 +552,16 @@ const Intro = () => {
                                     >
                                         <CountingStat target={6} label="Years Exp" startDelay={isInitialReveal ? 3200 : 0} />
                                         <div className="w-px h-12 bg-white/10" />
-                                        <ScrollingLyrics />
-                                        <div className="w-px h-12 bg-white/10" />
                                         <CountingStat target={25} label="Projects" startDelay={isInitialReveal ? 3400 : 0} />
+                                        <div className="w-px h-12 bg-white/10" />
+                                        <ScrollingLyrics />
                                     </motion.div>
                                 )}
                             </div>
 
                             {/* Premium Tab Toggle Bar: Locked at mt-52 position */}
                             <motion.div
-                                className={`mt-6 mb-8 md:mb-0 flex flex-col items-center gap-4 w-full pointer-events-auto order-first md:order-last ${activeTab === 'building' ? 'md:mt-16' : 'md:mt-52'}`}
+                                className={`mt-6 mb-8 md:mb-0 flex flex-col items-center gap-4 w-full pointer-events-auto order-first md:order-last ${activeTab === 'building' ? 'md:mt-24' : 'md:mt-52'}`}
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={animationPhase === 'card-reveal' ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                                 transition={{ duration: 0.8, delay: 2.0, ease: "easeOut" }}
