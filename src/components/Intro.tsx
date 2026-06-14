@@ -90,27 +90,27 @@ const Typewriter = ({ text, delay = 0, speed = 15, startTrigger = true, onComple
 
 const RoleCard = ({ title, role, desc, link, img }: { title: string, role: string, desc: string, link: string, img: string }) => (
     <div
-        className="w-full p-3 md:p-3.5 rounded-xl bg-white/[0.04] backdrop-blur-xl border border-white/10 flex items-center gap-4 group transition-all duration-300 pointer-events-auto hover:bg-white/[0.07] hover:border-white/20"
+        className="w-full p-4 md:p-4.5 rounded-2xl bg-white/[0.04] backdrop-blur-xl border border-white/10 flex items-center gap-5 group transition-all duration-300 pointer-events-auto hover:bg-white/[0.07] hover:border-white/20"
     >
-        <div className="w-14 h-14 rounded-lg overflow-hidden bg-white/5 border border-white/10 shrink-0">
+        <div className="w-20 h-20 md:w-24 md:h-24 rounded-2xl overflow-hidden bg-white/5 border border-white/10 shrink-0">
             <img src={img} alt={title} className="w-full h-full object-cover opacity-100 transition-opacity duration-500" />
         </div>
         <div className="flex flex-col flex-1 min-w-0">
-            <div className="flex items-center justify-between gap-4">
+            <div className="flex items-center justify-between gap-6">
                 <div className="flex flex-col truncate">
-                    <h3 className="text-white font-medium text-sm md:text-base tracking-wide truncate" style={{ fontFamily: "'Kanit', sans-serif" }}>{title}</h3>
-                    <p className="text-white/30 text-[9px] md:text-[10px] uppercase tracking-[0.15em] font-medium" style={{ fontFamily: "'Kanit', sans-serif" }}>{role}</p>
+                    <h3 className="text-white font-semibold text-base md:text-lg tracking-wide truncate" style={{ fontFamily: "'Kanit', sans-serif" }}>{title}</h3>
+                    <p className="text-white/30 text-[10px] md:text-xs uppercase tracking-[0.15em] font-medium" style={{ fontFamily: "'Kanit', sans-serif" }}>{role}</p>
                 </div>
                 <a
                     href={link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-2 rounded-lg bg-white/5 border border-white/5 text-white/40 hover:bg-white hover:text-black hover:border-white transition-all duration-300 active:scale-95 flex-shrink-0"
+                    className="p-3 rounded-xl bg-white/5 border border-white/5 text-white/40 hover:bg-white hover:text-black hover:border-white transition-all duration-300 active:scale-95 flex-shrink-0"
                 >
-                    <ExternalLink size={14} />
+                    <ExternalLink size={16} />
                 </a>
             </div>
-            <p className="mt-1.5 text-white/50 text-[11px] md:text-xs leading-snug line-clamp-2" style={{ fontFamily: "'Kanit', sans-serif" }}>
+            <p className="mt-2 text-white/50 text-[12px] md:text-[13px] leading-relaxed line-clamp-2" style={{ fontFamily: "'Kanit', sans-serif" }}>
                 {desc}
             </p>
         </div>
@@ -556,7 +556,7 @@ const Intro = () => {
                             }
                             transition={{ duration: 0.8, delay: 1.6, ease: "easeOut" }}
                         >
-                            <div className={`relative pointer-events-auto flex flex-col ${isMobile ? 'h-auto' : (activeTab === 'intro' ? 'h-[320px]' : 'h-[420px]')} order-last md:order-first w-full`}>
+                            <div className={`relative pointer-events-auto flex flex-col ${isMobile ? 'h-auto' : (activeTab === 'intro' ? 'h-[320px]' : 'h-[500px]')} order-last md:order-first w-full`}>
                                 <AnimatePresence mode="wait">
                                     {activeTab === 'intro' ? (
                                         <motion.div
@@ -583,7 +583,7 @@ const Intro = () => {
                                             animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                                             exit={{ opacity: 0, y: 20, filter: "blur(10px)" }}
                                             transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-                                            className="flex flex-col gap-3 w-full pt-4 h-full justify-between"
+                                            className="flex flex-col gap-4 w-full pt-4 h-full justify-between"
                                         >
                                             <div className="relative flex-grow">
                                                 <AnimatePresence mode="wait" initial={false}>
@@ -593,7 +593,7 @@ const Intro = () => {
                                                         animate={{ opacity: 1, x: 0 }}
                                                         exit={{ opacity: 0, x: -10 }}
                                                         transition={{ duration: 0.2, ease: "easeInOut" }}
-                                                        className="flex flex-col gap-3 w-full"
+                                                        className="flex flex-col gap-4 w-full"
                                                     >
                                                         {paginatedBuildingProjects.map((proj, idx) => (
                                                             <RoleCard key={idx} {...proj} />
@@ -663,7 +663,7 @@ const Intro = () => {
 
                             {/* Premium Tab Toggle Bar: Locked at mt-52 position */}
                             <motion.div
-                                className={`mt-6 mb-8 md:mb-0 flex flex-col items-center gap-4 w-full pointer-events-auto order-first md:order-last ${activeTab === 'building' ? 'md:mt-24' : 'md:mt-52'}`}
+                                className={`mt-6 mb-8 md:mb-0 flex flex-col items-center gap-4 w-full pointer-events-auto order-first md:order-last ${activeTab === 'building' ? 'md:mt-16' : 'md:mt-52'}`}
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={animationPhase === 'card-reveal' ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                                 transition={{ duration: 0.8, delay: 2.0, ease: "easeOut" }}
