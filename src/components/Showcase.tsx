@@ -151,6 +151,7 @@ const Showcase = () => {
         ],
         software: [
             { title: "Prodex Studio", desc: "Productivity Hub and a Life OS for creators.", link: "https://prodexstudio.in", img: "/prodex-studio.png" },
+            { title: "Paws AI", desc: "A secure, lightweight, and terminal-first local PC automation assistant. Control your Windows desktop safely via Telegram or an interactive Rich Terminal REPL, featuring natural language parsing, 2FC safety gates, and local profile memory.", link: "https://github.com/Tony-Mrxz/Paws-AI", img: "/paws-ai.png" },
             { title: "Connect", desc: "Premium match-making Discord bot for intelligent communities.", link: "https://discord.com/oauth2/authorize?client_id=1271770172641775636", img: "/Designs/connect.gif" },
             { title: "Mrxz Discord Bot", desc: "Advanced Discord integration and automated server management.", link: "https://dsc.gg/mrxz", img: "/mrxz.png" },
             { title: "Auxin", desc: "A privacy-focused, high-performance web browser concept.", link: "", img: "/Designs/auxin.png" },
