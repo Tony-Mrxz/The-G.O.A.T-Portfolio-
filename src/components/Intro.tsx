@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Github, Instagram, ExternalLink, ChevronDown, Linkedin } from 'lucide-react';
+import { Github, Instagram, ExternalLink, ChevronDown, Linkedin, ChevronLeft, ChevronRight } from 'lucide-react';
 
 const DiscordIcon = ({ size }: { size: number }) => (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
@@ -211,6 +211,44 @@ const ScrollingLyrics = () => {
     );
 };
 
+const buildingProjects = [
+    {
+        title: "Prodex Studio",
+        role: "Founder and CEO",
+        desc: "Productivity Hub and a Life OS. Perfect software to organize things and break the chaos.",
+        link: "https://prodexstudio.in",
+        img: "prodex-studio.png"
+    },
+    {
+        title: "Paws AI",
+        role: "Owner and Developer",
+        desc: "A secure, lightweight, and terminal-first local PC automation assistant. Control your Windows desktop safely via Telegram or an interactive Rich Terminal REPL, featuring natural language parsing, 2FC safety gates, and local profile memory.",
+        link: "https://github.com/Tony-Mrxz/Paws-AI",
+        img: "paws-ai.png"
+    },
+    {
+        title: "Mrxz Labs",
+        role: "Founder",
+        desc: "Creative engineering studio. Next-gen digital startup building high-performance webs, kinetic graphics, and smart automations.",
+        link: "https://mrxz-labs.vercel.app",
+        img: "mrxz.png"
+    },
+    {
+        title: "Swaraavali AI",
+        role: "Lead Developer",
+        desc: "World's first AI platform generating Sargam, Western, and Staff notation from any song instantly.",
+        link: "https://swaraavali-ai.vercel.app",
+        img: "swaraavali.png"
+    },
+    {
+        title: "InnerHue.org",
+        role: "Technical Assistant",
+        desc: "Charity Ngo. Helping and encouraging the orphan and dependent kids.",
+        link: "https://www.instagram.com/innerhue.org_",
+        img: "innerhue.jpg"
+    }
+];
+
 const Intro = () => {
     const [show, setShow] = useState(true);
     const [animationPhase, setAnimationPhase] = useState('text-in');
@@ -218,6 +256,46 @@ const Intro = () => {
     const [activeTab, setActiveTab] = useState<'intro' | 'building'>('intro');
     const [hasFinishedTyping, setHasFinishedTyping] = useState(false);
     const [isInitialReveal, setIsInitialReveal] = useState(true);
+    const [buildingPage, setBuildingPage] = useState(0);
+
+    const itemsPerPage = 3;
+    const totalPages = Math.ceil(buildingProjects.length / itemsPerPage);
+    const paginatedBuildingProjects = buildingProjects.slice(
+        buildingPage * itemsPerPage,
+        (buildingPage + 1) * itemsPerPage
+    );
+
+    const handlePrevPage = () => {
+        if (buildingPage > 0) {
+            setBuildingPage(prev => prev - 1);
+        }
+    };
+
+    const handleNextPage = () => {
+        if (buildingPage < totalPages - 1) {
+            setBuildingPage(prev => prev + 1);
+        }
+    };
+
+    // Reset page index on tab switch
+    useEffect(() => {
+        setBuildingPage(0);
+    }, [activeTab]);
+
+    // Keyboard navigation when in the building tab
+    useEffect(() => {
+        if (activeTab !== 'building') return;
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key === 'ArrowLeft') {
+                setBuildingPage(prev => Math.max(0, prev - 1));
+            } else if (e.key === 'ArrowRight') {
+                setBuildingPage(prev => Math.min(totalPages - 1, prev + 1));
+            }
+        };
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [activeTab, totalPages]);
+
 
     const [isMobile, setIsMobile] = useState(false);
 
@@ -505,36 +583,60 @@ const Intro = () => {
                                             animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                                             exit={{ opacity: 0, y: 20, filter: "blur(10px)" }}
                                             transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-                                            className="flex flex-col gap-3 w-full pt-4"
+                                            className="flex flex-col gap-3 w-full pt-4 h-full justify-between"
                                         >
-                                            <RoleCard
-                                                title="Prodex Studio"
-                                                role="Founder and CEO"
-                                                desc="Productivity Hub and a Life OS. Perfect software to organize things and break the chaos."
-                                                link="https://prodexstudio.in"
-                                                img="prodex-studio.png"
-                                            />
-                                            <RoleCard
-                                                title="Mrxz Labs"
-                                                role="Founder"
-                                                desc="Creative engineering studio. Next-gen digital startup building high-performance webs, kinetic graphics, and smart automations."
-                                                link="https://mrxz-labs.vercel.app"
-                                                img="mrxz.png"
-                                            />
-                                            <RoleCard
-                                                title="Swaraavali AI"
-                                                role="Lead Developer"
-                                                desc="World's first AI platform generating Sargam, Western, and Staff notation from any song instantly."
-                                                link="https://swaraavali-ai.vercel.app"
-                                                img="swaraavali.png"
-                                            />
-                                            <RoleCard
-                                                title="InnerHue.org"
-                                                role="Technical Assistant"
-                                                desc="Charity Ngo. Helping and encouraging the orphan and dependent kids."
-                                                link="https://www.instagram.com/innerhue.org_"
-                                                img="innerhue.jpg"
-                                            />
+                                            <div className="relative flex-grow">
+                                                <AnimatePresence mode="wait" initial={false}>
+                                                    <motion.div
+                                                        key={buildingPage}
+                                                        initial={{ opacity: 0, x: 10 }}
+                                                        animate={{ opacity: 1, x: 0 }}
+                                                        exit={{ opacity: 0, x: -10 }}
+                                                        transition={{ duration: 0.2, ease: "easeInOut" }}
+                                                        className="flex flex-col gap-3 w-full"
+                                                    >
+                                                        {paginatedBuildingProjects.map((proj, idx) => (
+                                                            <RoleCard key={idx} {...proj} />
+                                                        ))}
+                                                    </motion.div>
+                                                </AnimatePresence>
+                                            </div>
+
+                                            {/* Micro-Pagination Controls */}
+                                            {totalPages > 1 && (
+                                                <div className="flex items-center justify-between mt-3 px-1 select-none pointer-events-auto">
+                                                    {/* Progress Dots */}
+                                                    <div className="flex gap-2">
+                                                        {Array.from({ length: totalPages }).map((_, idx) => (
+                                                            <button
+                                                                key={idx}
+                                                                onClick={() => setBuildingPage(idx)}
+                                                                className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
+                                                                    buildingPage === idx ? 'w-6 bg-white' : 'w-2 bg-white/20 hover:bg-white/40'
+                                                                }`}
+                                                            />
+                                                        ))}
+                                                    </div>
+                                                    
+                                                    {/* Navigation Arrows */}
+                                                    <div className="flex gap-2">
+                                                        <button
+                                                            onClick={handlePrevPage}
+                                                            disabled={buildingPage === 0}
+                                                            className="p-1.5 rounded-lg bg-white/[0.03] border border-white/5 text-white/40 hover:bg-white/[0.08] hover:text-white disabled:opacity-20 disabled:hover:bg-white/[0.03] disabled:hover:text-white/40 transition-all duration-300 cursor-pointer disabled:cursor-not-allowed"
+                                                        >
+                                                            <ChevronLeft size={14} />
+                                                        </button>
+                                                        <button
+                                                            onClick={handleNextPage}
+                                                            disabled={buildingPage === totalPages - 1}
+                                                            className="p-1.5 rounded-lg bg-white/[0.03] border border-white/5 text-white/40 hover:bg-white/[0.08] hover:text-white disabled:opacity-20 disabled:hover:bg-white/[0.03] disabled:hover:text-white/40 transition-all duration-300 cursor-pointer disabled:cursor-not-allowed"
+                                                        >
+                                                            <ChevronRight size={14} />
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            )}
                                         </motion.div>
                                     )}
                                 </AnimatePresence>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Palette, Globe, Cpu, ExternalLink, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Palette, Globe, Cpu, ExternalLink } from 'lucide-react';
 
 // Elite Section Header with Category Tabs
 const SectionHeader = ({ activeTab, onTabChange }: { activeTab: string, onTabChange: (tab: 'designs' | 'websites' | 'software') => void }) => {
@@ -107,7 +107,6 @@ const ShowcaseCard = ({ title, desc, link, img, delay }: { title: string, desc: 
 
 const Showcase = () => {
     const [activeCategory, setActiveCategory] = React.useState<'designs' | 'websites' | 'software'>('designs');
-    const [currentPage, setCurrentPage] = React.useState(0);
 
     const content = {
         designs: [
@@ -151,7 +150,6 @@ const Showcase = () => {
         ],
         software: [
             { title: "Prodex Studio", desc: "Productivity Hub and a Life OS for creators.", link: "https://prodexstudio.in", img: "/prodex-studio.png" },
-            { title: "Paws AI", desc: "A secure, lightweight, and terminal-first local PC automation assistant. Control your Windows desktop safely via Telegram or an interactive Rich Terminal REPL, featuring natural language parsing, 2FC safety gates, and local profile memory.", link: "https://github.com/Tony-Mrxz/Paws-AI", img: "/paws-ai.png" },
             { title: "Connect", desc: "Premium match-making Discord bot for intelligent communities.", link: "https://discord.com/oauth2/authorize?client_id=1271770172641775636", img: "/Designs/connect.gif" },
             { title: "Mrxz Discord Bot", desc: "Advanced Discord integration and automated server management.", link: "https://dsc.gg/mrxz", img: "/mrxz.png" },
             { title: "Auxin", desc: "A privacy-focused, high-performance web browser concept.", link: "", img: "/Designs/auxin.png" },
@@ -159,45 +157,6 @@ const Showcase = () => {
             { title: "Astra AI", desc: "Automated, powerful voice assistant for PC productivity.", link: "", img: "/Designs/astra.gif" },
         ]
     };
-
-    // Reset to page 0 when active category changes
-    React.useEffect(() => {
-        setCurrentPage(0);
-    }, [activeCategory]);
-
-    const itemsPerPage = 3;
-    const currentCategoryContent = content[activeCategory];
-    const totalPages = Math.ceil(currentCategoryContent.length / itemsPerPage);
-
-    const paginatedContent = currentCategoryContent.slice(
-        currentPage * itemsPerPage,
-        (currentPage + 1) * itemsPerPage
-    );
-
-    const handlePrev = () => {
-        if (currentPage > 0) {
-            setCurrentPage(prev => prev - 1);
-        }
-    };
-
-    const handleNext = () => {
-        if (currentPage < totalPages - 1) {
-            setCurrentPage(prev => prev + 1);
-        }
-    };
-
-    // Add keyboard controls for pagination
-    React.useEffect(() => {
-        const handleKeyDown = (e: KeyboardEvent) => {
-            if (e.key === 'ArrowLeft') {
-                setCurrentPage(prev => Math.max(0, prev - 1));
-            } else if (e.key === 'ArrowRight') {
-                setCurrentPage(prev => Math.min(totalPages - 1, prev + 1));
-            }
-        };
-        window.addEventListener('keydown', handleKeyDown);
-        return () => window.removeEventListener('keydown', handleKeyDown);
-    }, [totalPages]);
 
     return (
         <motion.div
@@ -225,76 +184,18 @@ const Showcase = () => {
                 {/* Conditional Content Rendering */}
                 <AnimatePresence mode="wait">
                     <motion.div
-                        key={`${activeCategory}-${currentPage}`}
+                        key={activeCategory}
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
                         transition={{ duration: 0.4, ease: "easeOut" }}
                         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
                     >
-                        {paginatedContent.map((item, i) => (
+                        {content[activeCategory].map((item, i) => (
                             <ShowcaseCard key={i} {...item} delay={i * 0.05} />
                         ))}
                     </motion.div>
                 </AnimatePresence>
-
-                {/* Pagination Controls */}
-                {totalPages > 1 && (
-                    <div className="flex flex-col items-center justify-center gap-6 mt-16">
-                        <div className="flex flex-wrap items-center justify-center gap-4">
-                            <button
-                                onClick={handlePrev}
-                                disabled={currentPage === 0}
-                                className="p-3 rounded-full bg-white/[0.02] border border-white/5 text-white/40 hover:bg-white/[0.08] hover:text-white disabled:opacity-20 disabled:hover:bg-white/[0.02] disabled:hover:text-white/40 transition-all duration-300 cursor-pointer disabled:cursor-not-allowed"
-                                aria-label="Previous page"
-                            >
-                                <ChevronLeft size={16} />
-                            </button>
-                            
-                            <div className="flex flex-wrap items-center justify-center gap-2 select-none">
-                                {Array.from({ length: totalPages }).map((_, idx) => {
-                                    const isActive = currentPage === idx;
-                                    return (
-                                        <button
-                                            key={idx}
-                                            onClick={() => setCurrentPage(idx)}
-                                            className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-300 relative border ${
-                                                isActive
-                                                    ? 'bg-white border-white text-black shadow-[0_0_25px_rgba(255,255,255,0.2)] font-semibold'
-                                                    : 'bg-white/[0.02] border-white/5 text-white/40 hover:bg-white/[0.08] hover:border-white/10 hover:text-white'
-                                            }`}
-                                        >
-                                            <span className="text-[10px] font-medium tracking-wider" style={{ fontFamily: "'Kanit', sans-serif" }}>
-                                                {idx + 1}
-                                            </span>
-                                        </button>
-                                    );
-                                })}
-                            </div>
-
-                            <button
-                                onClick={handleNext}
-                                disabled={currentPage === totalPages - 1}
-                                className="p-3 rounded-full bg-white/[0.02] border border-white/5 text-white/40 hover:bg-white/[0.08] hover:text-white disabled:opacity-20 disabled:hover:bg-white/[0.02] disabled:hover:text-white/40 transition-all duration-300 cursor-pointer disabled:cursor-not-allowed"
-                                aria-label="Next page"
-                            >
-                                <ChevronRight size={16} />
-                            </button>
-                        </div>
-
-                        {/* Thin progress bar indicator underneath */}
-                        <div className="w-48 h-[2px] bg-white/10 relative rounded-full overflow-hidden">
-                            <motion.div
-                                className="absolute top-0 bottom-0 left-0 bg-white/80"
-                                initial={false}
-                                animate={{
-                                    width: `${((currentPage + 1) / totalPages) * 100}%`
-                                }}
-                                transition={{ duration: 0.4, ease: "easeOut" }}
-                            />
-                        </div>
-                    </div>
-                )}
             </div>
         </motion.div>
     );
