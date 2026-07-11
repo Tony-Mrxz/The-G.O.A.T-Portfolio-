@@ -144,12 +144,14 @@ const Showcase = () => {
         websites: [
             { title: "Prodex Studio", desc: "Productivity Hub and a Life OS for creators.", link: "https://prodexstudio.in", img: "/prodex-studio.png" },
             { title: "Mrxz Labs", desc: "Creative engineering studio building high-performance websites and automations.", link: "https://mrxz-labs.vercel.app", img: "/mrxz.png" },
-            { title: "Swaraavali AI", desc: "World's first AI to generate Carnatic Sargam, Western & Staff notation from any song.", link: "https://swaraavali-ai.vercel.app", img: "/swaraavali.png" },
+            { title: "Swaraavali AI", desc: "World's first AI to generate Carnatic Sargam, Western & Staff notation from any song.", link: "https://swaraavali.com", img: "/swaraavali.png" },
+            { title: "Ticky - Desktop Companion", desc: "Lite-weight desktop companion for tasks, spotify widget and quick mini conversations with ai.", link: "https://ticky-mrxz.vercel.app", img: "/ticky.png" },
             { title: "Mrxz", desc: "Digital portfolio and creative hub.", link: "https://cybmrxz.netlify.app", img: "/mrxz.png" },
             { title: "Hyperverse", desc: "Creative studio and production house.", link: "https://www.hyperversestudios.in", img: "/Designs/hypervrs.png" },
         ],
         software: [
             { title: "Prodex Studio", desc: "Productivity Hub and a Life OS for creators.", link: "https://prodexstudio.in", img: "/prodex-studio.png" },
+            { title: "Ticky - Desktop Companion", desc: "Lite-weight desktop companion for tasks, spotify widget and quick mini conversations with ai.", link: "https://ticky-mrxz.vercel.app", img: "/ticky.png" },
             { title: "Connect", desc: "Premium match-making Discord bot for intelligent communities.", link: "https://discord.com/oauth2/authorize?client_id=1271770172641775636", img: "/Designs/connect.gif" },
             { title: "Mrxz Discord Bot", desc: "Advanced Discord integration and automated server management.", link: "https://dsc.gg/mrxz", img: "/mrxz.png" },
             { title: "Auxin", desc: "A privacy-focused, high-performance web browser concept.", link: "", img: "/Designs/auxin.png" },

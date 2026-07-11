@@ -237,8 +237,15 @@ const buildingProjects = [
         title: "Swaraavali AI",
         role: "Lead Developer",
         desc: "World's first AI platform generating Sargam, Western, and Staff notation from any song instantly.",
-        link: "https://swaraavali-ai.vercel.app",
+        link: "https://swaraavali.com",
         img: "swaraavali.png"
+    },
+    {
+        title: "Ticky",
+        role: "Creator and Developer",
+        desc: "Lite-weight desktop companion for tasks, spotify widget and quick mini conversations with ai.",
+        link: "https://ticky-mrxz.vercel.app",
+        img: "ticky.png"
     },
     {
         title: "InnerHue.org",
