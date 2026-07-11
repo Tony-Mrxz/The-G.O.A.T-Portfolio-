@@ -180,7 +180,7 @@ const CountingStat = ({ target, label, suffix = "+", startDelay = 0 }: { target:
 };
 
 const ScrollingLyrics = () => {
-    const words = ["Graphic Design", "Fullstack\nDevelopment", "AI Automations"];
+    const words = ["Graphic Design", "Full Stack\nDevelopment", "AI Automations"];
     const [index, setIndex] = useState(0);
 
     useEffect(() => {

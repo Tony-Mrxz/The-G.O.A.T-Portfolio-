@@ -65,22 +65,22 @@ const ProdexBell = ({ scrollDir, isMobile }: { scrollDir: "up" | "down", isMobil
                             <div className="flex flex-col gap-4">
                                 <div className="flex items-center gap-4">
                                     <div className="w-12 h-12 rounded-xl bg-white/[0.05] border border-white/10 overflow-hidden flex items-center justify-center">
-                                        <img src="/prodex-studio.png" alt="Prodex Logo" className="w-full h-full object-cover" />
+                                        <img src="/ticky.png" alt="Ticky Logo" className="w-full h-full object-cover" />
                                     </div>
                                     <div>
                                         <h3 className="text-white font-medium tracking-wider text-sm" style={{ fontFamily: "'Kanit', sans-serif" }}>
-                                            PRODEX STUDIO
+                                            TICKY
                                         </h3>
-                                        <p className="text-white/40 text-[10px] uppercase tracking-[0.2em]">Productivity Hub</p>
+                                        <p className="text-white/40 text-[10px] uppercase tracking-[0.2em]">Desktop Companion</p>
                                     </div>
                                 </div>
 
                                 <p className="text-white/60 text-xs leading-relaxed font-light" style={{ fontFamily: "'Kanit', sans-serif" }}>
-                                    Productivity Hub and a Life OS, works as ur second part for organizing things and removing chaos from your life!
+                                    Lite-weight desktop companion for tasks, spotify widget and quick mini conversations with ai.
                                 </p>
 
                                 <a
-                                    href="https://prodexstudio.in"
+                                    href="https://ticky-mrxz.vercel.app"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="group flex items-center justify-between p-3 rounded-xl bg-white text-black text-[11px] font-medium uppercase tracking-[0.2em] hover:bg-white/90 transition-colors duration-300"
