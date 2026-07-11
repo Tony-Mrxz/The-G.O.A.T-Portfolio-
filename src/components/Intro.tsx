@@ -180,7 +180,7 @@ const CountingStat = ({ target, label, suffix = "+", startDelay = 0 }: { target:
 };
 
 const ScrollingLyrics = () => {
-    const words = ["Graphic Design", "FullStack Development", "AI Automations"];
+    const words = ["Graphic Design", "Fullstack\nDevelopment", "AI Automations"];
     const [index, setIndex] = useState(0);
 
     useEffect(() => {
@@ -192,15 +192,15 @@ const ScrollingLyrics = () => {
 
     return (
         <div className="flex flex-col items-center justify-center px-4 py-2 min-w-[140px] md:min-w-[180px] h-12 select-none">
-            <div className="h-6 w-full overflow-hidden relative flex items-center justify-center">
+            <div className="h-10 w-full overflow-hidden relative flex items-center justify-center">
                 <AnimatePresence>
                     <motion.span
                         key={index}
-                        initial={{ y: 24, opacity: 0 }}
+                        initial={{ y: 30, opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}
-                        exit={{ y: -24, opacity: 0 }}
+                        exit={{ y: -30, opacity: 0 }}
                         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                        className="text-white font-semibold text-[10px] md:text-xs uppercase tracking-[0.2em] text-center whitespace-nowrap absolute drop-shadow-[0_0_12px_rgba(255,255,255,0.4)]"
+                        className="text-white font-semibold text-[10px] md:text-xs uppercase tracking-[0.2em] text-center whitespace-pre-line absolute drop-shadow-[0_0_12px_rgba(255,255,255,0.4)]"
                         style={{ fontFamily: "'Kanit', sans-serif" }}
                     >
                         {words[index]}
